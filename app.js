@@ -6,7 +6,7 @@
 
   const DEFAULTS = {
     delay: 86400000,
-    aspect: '1:1',
+    aspect: '3:2',
     blur: true,
     grid: false,
     timer: 0,
@@ -311,7 +311,7 @@
     const cs = getComputedStyle(area);
     const aw = area.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const ah = area.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-    const ratio = 1;
+    const ratio = 1 / ASPECTS[state.settings.aspect];
     let w = Math.min(aw, ah * ratio);
     let h = w / ratio;
     vf.style.width = Math.floor(w) + 'px';
