@@ -45,14 +45,14 @@ const Film = (() => {
   }
   const LUTS = buildLuts();
 
-  function grade(ctx, w, h, rand) {
+  function grade(ctx, w, h, rand, grainOn) {
     const img = ctx.getImageData(0, 0, w, h);
     const d = img.data;
     const [lr, lg, lb] = LUTS;
     const cx = w / 2, cy = h / 2;
     const maxR2 = cx * cx + cy * cy;
     const vigStrength = 0.42 + rand() * 0.15;
-    const grainAmt = 15 + rand() * 6;
+    const grainAmt = grainOn ? 15 + rand() * 6 : 0;
     const sat = 0.86;
     let s = (rand() * 4294967295) >>> 0 || 7;
     for (let y = 0; y < h; y++) {
@@ -120,12 +120,14 @@ const Film = (() => {
     ctx.restore();
   }
 
-  function dateStamp(ctx, w, h, takenAt) {
-    const dt = new Date(takenAt);
+  function dateStamp(ctx, w, h, opts) {
+    const dt = new Date(opts.takenAt);
     const yy = String(dt.getFullYear()).slice(-2);
-    const mm = String(dt.getMonth() + 1);
-    const dd = String(dt.getDate());
-    const text = `'${yy} ${mm} ${dd}`;
+    const mm = String(dt.getMonth() + 1).padStart(2, '0');
+    const dd = String(dt.getDate()).padStart(2, '0');
+    const order = opts.stampOrder || 'YMD';
+    const text = order === 'DMY' ? `${dd} ${mm} '${yy}` : order === 'MDY' ? `${mm} ${dd} '${yy}` : `'${yy} ${mm} ${dd}`;
+    const white = opts.stampColor === 'white';
     const size = Math.round(Math.min(w, h) * 0.05);
     ctx.save();
     ctx.font = `bold ${size}px "Courier New", ui-monospace, monospace`;
@@ -134,12 +136,12 @@ const Film = (() => {
     const x = w - size * 1.4;
     const y = h - size * 1.2;
     ctx.globalCompositeOperation = 'screen';
-    ctx.shadowColor = 'rgba(255,110,20,0.9)';
+    ctx.shadowColor = white ? 'rgba(255,245,230,0.6)' : 'rgba(255,110,20,0.9)';
     ctx.shadowBlur = size * 0.5;
-    ctx.fillStyle = 'rgba(255,128,32,0.95)';
+    ctx.fillStyle = white ? 'rgba(255,250,240,0.92)' : 'rgba(255,128,32,0.95)';
     ctx.fillText(text, x, y);
     ctx.shadowBlur = 0;
-    ctx.fillStyle = 'rgba(255,160,80,0.3)';
+    ctx.fillStyle = white ? 'rgba(255,255,255,0.35)' : 'rgba(255,160,80,0.3)';
     ctx.fillText(text, x, y);
     ctx.restore();
   }
@@ -173,9 +175,9 @@ const Film = (() => {
     ctx.drawImage(soft, 0, 0, w, h);
     soft.width = soft.height = 0;
 
-    grade(ctx, w, h, rand);
+    grade(ctx, w, h, rand, opts.grain !== false);
     if (rand() < 0.3) lightLeak(ctx, w, h, rand);
-    if (opts.dateStamp) dateStamp(ctx, w, h, opts.takenAt);
+    if (opts.dateStamp) dateStamp(ctx, w, h, opts);
 
     const blob = await toBlob(canvas, 0.9);
     canvas.width = canvas.height = 0;

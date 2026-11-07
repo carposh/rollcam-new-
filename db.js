@@ -85,6 +85,20 @@ const DB = (() => {
     });
   }
 
+  async function count(name) {
+    return wrap((await store(name)).count());
+  }
+
+  async function clearAll() {
+    const db = await open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(['rolls', 'photos', 'prints'], 'readwrite');
+      ['rolls', 'photos', 'prints'].forEach((n) => tx.objectStore(n).clear());
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
   async function getMeta(key, fallback) {
     const row = await get('meta', key);
     return row ? row.value : fallback;
@@ -94,5 +108,5 @@ const DB = (() => {
     return put('meta', { key, value });
   }
 
-  return { open, get, put, putMany, all, byRoll, deleteRoll, getMeta, setMeta };
+  return { open, get, put, putMany, all, byRoll, deleteRoll, count, clearAll, getMeta, setMeta };
 })();
