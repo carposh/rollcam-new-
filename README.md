@@ -16,12 +16,14 @@ If you denied the camera by mistake: **Settings → Apps → Safari → Camera �
 
 ## How it works
 
-- Load a 24 or 36 exposure roll. Drag the thumbwheel down to wind on after every shot.
-- Photos never appear until the roll is developed. When the roll is full, tap **Send to lab**. Use **Develop early** to end a roll now; the unused exposures are thrown away.
-- Development takes 24 h by default (1 h / 12 h / 24 h / 3 days in Settings). Setting the clock back won't get your photos back sooner.
-- The film look (warm cast, fade, grain, vignette, light leaks, optional orange date stamp) is applied at development time.
-- Tap **Save** on a photo (or **Save all** on a roll) and choose **Save Image** in the share sheet to put it in Photos.
-- Everything stays on your phone, in IndexedDB. There's no server and no account, and **no backup**: deleting the app from your home screen deletes your rolls.
+- **Camera tab:** load a 24 or 36 exposure roll, then shoot. The counter shows shots taken (`09 / 24`). The viewfinder is blurred by default, so you see the light, not the shot. You can turn the blur off in Settings.
+- **Controls:** flash (front camera only, as a white-screen flash), front/back camera switch, counter, self-timer (Off / 2s / 5s / 10s), and **End roll**, which sends the roll to the lab early and throws away the unused exposures.
+- When the roll is full, tap **Send to lab**.
+- **Lab tab:** a countdown for each roll. Development takes 24 h by default (1h / 12h / 24h / 3 days in Settings). Setting the clock back won't get your photos back sooner.
+- **Rolls tab:** your developed rolls. Tap **Save** on a photo (or **Save all** on a roll) and choose **Save Image** to put it in Photos.
+- **Settings:** development time, frame format (4:3 / 3:2 / 1:1), blurred viewfinder, grid, timer, grain, date stamp with format and colour, storage usage, and Delete all data.
+- The film look (warm cast, fade, grain, vignette, light leaks, date stamp) is applied only at development time.
+- Everything stays on your phone, in IndexedDB. There's no server, no account and **no backup**: deleting the app from your home screen deletes your rolls.
 
 ## Tech
 
