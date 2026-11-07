@@ -123,10 +123,10 @@ const Film = (() => {
   function dateStamp(ctx, w, h, takenAt) {
     const dt = new Date(takenAt);
     const yy = String(dt.getFullYear()).slice(-2);
-    const mm = String(dt.getMonth() + 1).padStart(2, ' ');
-    const dd = String(dt.getDate()).padStart(2, ' ');
+    const mm = String(dt.getMonth() + 1);
+    const dd = String(dt.getDate());
     const text = `'${yy} ${mm} ${dd}`;
-    const size = Math.round(Math.min(w, h) * 0.045);
+    const size = Math.round(Math.min(w, h) * 0.05);
     ctx.save();
     ctx.font = `bold ${size}px "Courier New", ui-monospace, monospace`;
     ctx.textAlign = 'right';
@@ -139,7 +139,7 @@ const Film = (() => {
     ctx.fillStyle = 'rgba(255,128,32,0.95)';
     ctx.fillText(text, x, y);
     ctx.shadowBlur = 0;
-    ctx.fillStyle = 'rgba(255,190,120,0.55)';
+    ctx.fillStyle = 'rgba(255,160,80,0.3)';
     ctx.fillText(text, x, y);
     ctx.restore();
   }
