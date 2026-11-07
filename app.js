@@ -6,7 +6,7 @@
 
   const DEFAULTS = {
     delay: 86400000,
-    aspect: '3:2',
+    aspect: '1:1',
     blur: true,
     grid: false,
     timer: 0,
@@ -304,10 +304,6 @@
     } catch (e) {}
   }
 
-  function portraitRatio() {
-    return 1 / ASPECTS[state.settings.aspect];
-  }
-
   function sizeViewfinder() {
     const area = $('.vf-area');
     const vf = $('#vf');
@@ -315,7 +311,7 @@
     const cs = getComputedStyle(area);
     const aw = area.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const ah = area.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-    const ratio = portraitRatio();
+    const ratio = 1;
     let w = Math.min(aw, ah * ratio);
     let h = w / ratio;
     vf.style.width = Math.floor(w) + 'px';
@@ -391,6 +387,9 @@
     const s = state.settings;
     const vf = $('#vf');
     vf.classList.toggle('blur', s.blur);
+    $('#btn-blur').classList.toggle('on', s.blur);
+    $('#btn-blur').setAttribute('aria-pressed', String(s.blur));
+    $('#btn-blur').hidden = !r || r.shots >= r.size;
     $('#vf-grid').hidden = !s.grid || !r;
     $('#vf-load').hidden = !!r;
     const front = state.facing === 'user';
@@ -737,6 +736,10 @@
     $('#btn-timer').addEventListener('click', () => {
       const steps = [0, 2, 5, 10];
       setSetting('timer', steps[(steps.indexOf(state.settings.timer) + 1) % steps.length]);
+    });
+    $('#btn-blur').addEventListener('click', () => {
+      setSetting('blur', !state.settings.blur);
+      toast(state.settings.blur ? 'Blur on' : 'Blur off');
     });
     $('#btn-send').addEventListener('click', sendToLab);
     $('#btn-early').addEventListener('click', developEarly);

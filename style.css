@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Newsreader";
+  src: url("fonts/newsreader-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #000;
   --bar: #0a0a0a;
@@ -13,7 +21,7 @@
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
-  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "Newsreader", ui-serif, "New York", Georgia, "Times New Roman", serif;
   --ar: 2 / 3;
 }
 
@@ -24,7 +32,7 @@ html, body {
   height: 100%;
   background: var(--bg);
   color: var(--ink);
-  font: 16px/1.35 var(--sans);
+  font: 16px/1.35 var(--serif);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
   -webkit-user-select: none;
@@ -103,7 +111,7 @@ main { flex: 1; position: relative; min-height: 0; }
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   background: #0b0b0b;
   border: 2px solid var(--silver-lo);
@@ -122,13 +130,27 @@ main { flex: 1; position: relative; min-height: 0; }
   transition: filter 0.3s;
 }
 .vf video.mirror { transform: scaleX(-1); }
-.vf.blur video { filter: blur(18px) saturate(1.15); transform: scale(1.15); }
-.vf.blur video.mirror { transform: scale(-1.15, 1.15); }
+.vf.blur video { filter: blur(7px) grayscale(1) contrast(1.05); transform: scale(1.06); }
+.vf.blur video.mirror { transform: scale(-1.06, 1.06); }
+.vf-chip {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font: 600 12px/1 var(--serif);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.vf-chip.on { background: var(--red); border-color: var(--red); }
 .vf video.blink { opacity: 0; }
 .vf-inner {
   position: absolute;
-  inset: 12px;
-  border-radius: 18px;
+  inset: 10px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,0.12);
   pointer-events: none;
 }
@@ -158,7 +180,7 @@ main { flex: 1; position: relative; min-height: 0; }
   inset: 0;
   display: grid;
   place-items: center;
-  font: 200 110px/1 var(--sans);
+  font: 200 110px/1 var(--serif);
   color: #fff;
   font-variant-numeric: tabular-nums;
   text-shadow: 0 2px 20px rgba(0,0,0,0.6);
@@ -186,9 +208,9 @@ main { flex: 1; position: relative; min-height: 0; }
   background: rgba(0,0,0,0.45);
   border: 1.5px solid var(--silver-lo);
   color: #fff;
-  font: 300 32px/1 var(--sans);
+  font: 300 32px/1 var(--serif);
 }
-.load-choice button small { display: block; margin-top: 6px; font: 600 11px/1 var(--sans); letter-spacing: 2px; color: var(--muted); }
+.load-choice button small { display: block; margin-top: 6px; font: 600 11px/1 var(--serif); letter-spacing: 2px; color: var(--muted); }
 .load-choice button:active { background: var(--red); border-color: var(--red); }
 
 .ctrl-row {
@@ -234,7 +256,7 @@ main { flex: 1; position: relative; min-height: 0; }
 
 .counter b { color: var(--red); font-weight: 500; }
 .counter {
-  font: 400 25px/1 var(--sans);
+  font: 400 25px/1 var(--serif);
   letter-spacing: 0.5px;
   color: #fff;
   white-space: pre;
@@ -341,7 +363,7 @@ main { flex: 1; position: relative; min-height: 0; }
 .lab-row span { color: var(--muted); font-size: 14px; font-weight: 600; }
 .lab-label { color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 .countdown {
-  font: 200 46px/1.1 var(--sans);
+  font: 200 46px/1.1 var(--serif);
   color: #fff;
   letter-spacing: -0.5px;
   font-variant-numeric: tabular-nums;
