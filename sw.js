@@ -1,4 +1,4 @@
-const CACHE = 'rollcam-v6';
+const CACHE = 'rollcam-v7';
 const SHELL = [
   './',
   './index.html',

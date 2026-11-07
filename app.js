@@ -387,13 +387,11 @@
     const s = state.settings;
     const vf = $('#vf');
     vf.classList.toggle('blur', s.blur);
-    $('#btn-blur').classList.toggle('on', s.blur);
-    $('#btn-blur').setAttribute('aria-pressed', String(s.blur));
-    $('#btn-blur').hidden = !r || r.shots >= r.size;
+    $('#btn-blur').setAttribute('aria-checked', String(s.blur));
     $('#vf-grid').hidden = !s.grid || !r;
     $('#vf-load').hidden = !!r;
     const front = state.facing === 'user';
-    $('#btn-flip').setAttribute('aria-checked', String(front));
+    $('#btn-flip').classList.toggle('on', front);
     $('#btn-flash').classList.toggle('on', state.flash);
     $('#btn-flash').setAttribute('aria-pressed', String(state.flash));
     $('#btn-timer').classList.toggle('on', s.timer > 0);
@@ -718,6 +716,7 @@
     $('#btn-flip').addEventListener('click', () => {
       state.facing = state.facing === 'user' ? 'environment' : 'user';
       renderCamera();
+      toast(state.facing === 'user' ? 'Front camera' : 'Back camera');
       if (state.stream) startStream();
     });
     $('#btn-flash').addEventListener('click', () => {

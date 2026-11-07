@@ -42,7 +42,6 @@
         <div class="vf" id="vf">
           <video id="video" playsinline muted autoplay></video>
           <div class="vf-grid" id="vf-grid" hidden></div>
-          <button id="btn-blur" class="vf-chip" aria-pressed="true">B&amp;W blur</button>
           <div class="vf-inner"></div>
           <div id="vf-msg" class="vf-msg" hidden></div>
           <div id="vf-timer" class="vf-timer" hidden></div>
@@ -62,7 +61,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg>
         </button>
         <span class="sep"></span>
-        <button id="btn-flip" class="switch" role="switch" aria-checked="false" aria-label="Use front camera"><i></i></button>
+        <div class="switch-wrap"><button id="btn-blur" class="switch" role="switch" aria-checked="true" aria-label="Black-and-white blurred viewfinder"><i></i></button><span class="switch-label">BLUR</span></div>
         <span class="sep"></span>
         <div class="counter" id="counter">-- / --</div>
         <span class="sep"></span>
@@ -77,8 +76,16 @@
       </div>
 
       <div class="shutter-area">
-        <button id="btn-shutter" class="shutter" aria-label="Take photo"><span></span></button>
-        <button id="btn-send" class="send-btn" hidden>Send to lab</button>
+        <span class="side"></span>
+        <div class="center">
+          <button id="btn-shutter" class="shutter" aria-label="Take photo"><span></span></button>
+          <button id="btn-send" class="send-btn" hidden>Send to lab</button>
+        </div>
+        <span class="side">
+          <button id="btn-flip" class="round-btn" aria-label="Switch between back and front camera">
+            <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 9.5A8 8 0 0 0 5.2 7.4M4.5 14.5a8 8 0 0 0 14.3 2.1"/><path d="M5 3.8v3.9h3.9M19 20.2v-3.9h-3.9"/></g></svg>
+          </button>
+        </span>
       </div>
     </section>
 
@@ -168,7 +175,7 @@
     <h3 class="group-title">Camera</h3>
     <div class="group">
       <label class="row">
-        <div class="row-text"><b>Blurred viewfinder</b><span>A soft black-and-white viewfinder: see the light, not the shot. You can also switch it on the camera screen.</span></div>
+        <div class="row-text"><b>Blurred viewfinder</b><span>A soft black-and-white viewfinder: see the light, not the shot. Also on the BLUR switch under the viewfinder.</span></div>
         <input type="checkbox" class="tgl" data-setting="blur">
       </label>
       <label class="row">
@@ -227,7 +234,7 @@
 
     <h3 class="group-title">About</h3>
     <div class="group">
-      <div class="row"><div class="row-text"><b>Version</b></div><span class="val">2.2.0</span></div>
+      <div class="row"><div class="row-text"><b>Version</b></div><span class="val">2.3.0</span></div>
       <p class="group-note">No accounts, no servers. Everything stays on this iPhone.</p>
     </div>
   </div>
