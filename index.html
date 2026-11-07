@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Rollcam</title>
 <meta name="description" content="A disposable camera. No previews. Wait for the lab.">
-<meta name="theme-color" content="#1a1816">
+<meta name="theme-color" content="#1c1c1e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,112 +18,229 @@
 </head>
 <body>
 
-<section id="home" class="screen active">
-  <header class="topbar">
-    <h1 class="logo">Roll<span>cam</span></h1>
-    <button id="btn-settings" class="icon-btn" aria-label="Settings">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5A3.5 3.5 0 1 1 13 8.5a3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg>
-    </button>
+<div id="app">
+  <header class="appbar">
+    <div class="appbar-side"></div>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M16 3v7M27.3 9.5l-6 3.5M27.3 22.5l-6-3.5M16 29v-7M4.7 22.5l6-3.5M4.7 9.5l6 3.5" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      <span>ROLLCAM</span>
+    </div>
+    <div class="appbar-side right">
+      <button id="btn-settings" class="icon-btn" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8l1.6 1.9 2.4-.6.9 2.3 2.3.9-.6 2.4 1.9 1.6-1.9 1.6.6 2.4-2.3.9-.9 2.3-2.4-.6L12 21.2l-1.6-1.9-2.4.6-.9-2.3-2.3-.9.6-2.4L3.5 12l1.9-1.6-.6-2.4 2.3-.9.9-2.3 2.4.6z" stroke-linejoin="round"/></g></svg>
+      </button>
+    </div>
   </header>
-  <div class="home-scroll">
-    <div id="active-slot"></div>
-    <h2 class="section-title" id="lab-title" hidden>At the lab</h2>
-    <div id="lab-list"></div>
-    <h2 class="section-title" id="dev-title" hidden>Developed rolls</h2>
-    <div id="dev-list" class="dev-list"></div>
-    <p id="install-hint" class="hint" hidden>Tip: tap Share → <b>Add to Home Screen</b> to use Rollcam full-screen.</p>
-  </div>
-</section>
 
-<section id="camera" class="screen">
-  <div class="body">
-    <div class="body-top">
-      <button id="btn-cam-back" class="chip">‹ Rolls</button>
-      <div class="brand">ROLLCAM <b>400</b></div>
-    </div>
-
-    <div class="back-row">
-      <div class="vf-wrap">
-        <div class="vf-bezel">
+  <main>
+    <section id="tab-camera" class="tab active">
+      <div class="vf-area">
+        <div class="vf" id="vf">
           <video id="video" playsinline muted autoplay></video>
+          <div class="vf-grid" id="vf-grid" hidden></div>
+          <div class="vf-inner"></div>
           <div id="vf-msg" class="vf-msg" hidden></div>
+          <div id="vf-timer" class="vf-timer" hidden></div>
+          <div id="vf-load" class="vf-load" hidden>
+            <p class="vf-load-title">Load a roll</p>
+            <p class="vf-load-sub">No previews. No retakes.<br>Wait for the lab.</p>
+            <div class="load-choice">
+              <button data-size="24">24<small>EXP</small></button>
+              <button data-size="36">36<small>EXP</small></button>
+            </div>
+          </div>
         </div>
-        <div class="vf-label">VIEWFINDER</div>
       </div>
-      <div class="counter-wrap">
-        <div class="counter"><span id="counter">24</span></div>
-        <div class="vf-label">EXP. LEFT</div>
-      </div>
-    </div>
 
-    <div class="mid-row">
-      <div class="stripes">
-        <div class="stripe-text">
-          <span id="roll-label">24 EXP</span> · ISO 400 · FOCUS-FREE
-        </div>
-        <div class="stripe s1"></div><div class="stripe s2"></div><div class="stripe s3"></div>
-        <p class="instructions">1. WIND ▼ &nbsp; 2. SHOOT ● &nbsp; 3. SEND TO LAB</p>
+      <div class="ctrl-row">
+        <button id="btn-flash" class="ctrl" aria-label="Flash">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></svg>
+        </button>
+        <span class="sep"></span>
+        <button id="btn-flip" class="switch" role="switch" aria-checked="false" aria-label="Use front camera"><i></i></button>
+        <span class="sep"></span>
+        <div class="counter" id="counter">-- / --</div>
+        <span class="sep"></span>
+        <button id="btn-timer" class="ctrl" aria-label="Self-timer">
+          <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="13.5" r="8"/><path d="M12 13.5l4-5M10 2.5h4"/></g></svg>
+          <b id="timer-badge" hidden></b>
+        </button>
+        <span class="sep"></span>
+        <button id="btn-early" class="ctrl" aria-label="End roll and develop early">
+          <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M8 4v16M3.5 8H8M3.5 12H8M3.5 16H8M12 12h6M15.5 9.5L18 12l-2.5 2.5" stroke-linecap="round"/></g></svg>
+        </button>
       </div>
-      <div class="wheel-wrap">
-        <div id="wheel" class="wheel" role="slider" aria-label="Film advance wheel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wheel-ridges" id="wheel-ridges"></div></div>
-        <div id="wheel-hint" class="wheel-hint">WIND ▼</div>
+
+      <div class="shutter-area">
+        <button id="btn-shutter" class="shutter" aria-label="Take photo"><span></span></button>
+        <button id="btn-send" class="send-btn" hidden>Send to lab</button>
       </div>
-    </div>
+    </section>
 
-    <div class="controls">
-      <button id="btn-flash" class="ctrl" aria-label="Flash">
-        <span class="led" id="flash-led"></span>
-        <span class="ctrl-label" id="flash-label">FLASH</span>
-      </button>
-      <button id="btn-shutter" class="shutter" aria-label="Take photo"><span></span></button>
-      <button id="btn-flip" class="ctrl" aria-label="Switch camera">
-        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16m0 4v-4h-4"/></svg>
-        <span class="ctrl-label" id="flip-label">BACK</span>
-      </button>
-    </div>
-    <button id="btn-send" class="send-btn" hidden>Send to lab →</button>
-    <button id="btn-early" class="link-btn">Develop early…</button>
-  </div>
-  <div id="flash-overlay"></div>
-</section>
+    <section id="tab-lab" class="tab">
+      <div class="scroll">
+        <h2 class="page-title">At the lab</h2>
+        <div id="lab-list"></div>
+        <p id="lab-empty" class="empty">Nothing at the lab.<br>Finish a roll and send it in.</p>
+      </div>
+    </section>
 
-<section id="roll" class="screen">
-  <header class="topbar">
-    <button id="btn-roll-back" class="chip">‹ Rolls</button>
+    <section id="tab-rolls" class="tab">
+      <div class="scroll">
+        <h2 class="page-title">Rolls</h2>
+        <div id="dev-list" class="dev-list"></div>
+        <p id="dev-empty" class="empty">Your developed rolls will show up here.</p>
+        <p id="install-hint" class="hint" hidden>Tip: open in Safari, tap Share → <b>Add to Home Screen</b> to use Rollcam full-screen.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tabbtn active" data-tab="camera">
+      <svg viewBox="0 0 24 24" width="30" height="30"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h2l1.5-2h6l1.5 2h2A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="4"/><circle cx="12" cy="13" r="1.6"/></g></svg>
+      <span>Camera</span>
+    </button>
+    <button class="tabbtn" data-tab="lab">
+      <svg viewBox="0 0 24 24" width="30" height="30"><g fill="currentColor"><path d="M8 10V7.5a4 4 0 0 1 8 0V10h-1.8V7.5a2.2 2.2 0 0 0-4.4 0V10z"/><rect x="6" y="10" width="12" height="10" rx="2.2"/></g><circle cx="12" cy="15" r="1.4" fill="#1c1c1e"/></svg>
+      <span>Lab</span>
+      <i class="dot" id="lab-dot" hidden></i>
+    </button>
+    <button class="tabbtn" data-tab="rolls">
+      <svg viewBox="0 0 24 24" width="30" height="30"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="7" y="7" width="13.5" height="13.5" rx="2.5"/><path d="M4 16.5V6a2.5 2.5 0 0 1 2.5-2.5H17M10.5 12h6.5M10.5 15.5h6.5"/></g></svg>
+      <span>Rolls</span>
+    </button>
+  </nav>
+</div>
+
+<section id="roll" class="page" hidden>
+  <header class="page-bar">
+    <button id="btn-roll-back" class="icon-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+    </button>
     <div class="roll-head">
       <div id="roll-title" class="roll-title"></div>
       <div id="roll-sub" class="roll-sub"></div>
     </div>
-    <button id="btn-save-all" class="chip">Save all</button>
+    <button id="btn-save-all" class="pill">Save all</button>
   </header>
-  <div id="grid" class="grid"></div>
-  <button id="btn-delete-roll" class="link-btn danger">Delete this roll</button>
+  <div class="page-body">
+    <div id="grid" class="grid"></div>
+    <button id="btn-delete-roll" class="link-btn danger">Delete this roll</button>
+  </div>
+</section>
+
+<section id="settings" class="page" hidden>
+  <header class="page-bar">
+    <button id="btn-settings-back" class="icon-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24" width="28" height="28"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <h1 class="page-bar-title">Settings</h1>
+    <span class="icon-btn"></span>
+  </header>
+  <div class="page-body settings">
+
+    <h3 class="group-title">Film</h3>
+    <div class="group">
+      <div class="row col">
+        <div class="row-text"><b>Development time</b><span>How long the lab takes. Applies to rolls you send from now on.</span></div>
+        <div class="seg" data-setting="delay">
+          <button data-v="3600000">1h</button>
+          <button data-v="43200000">12h</button>
+          <button data-v="86400000">24h</button>
+          <button data-v="259200000">3 days</button>
+        </div>
+      </div>
+      <div class="row col">
+        <div class="row-text"><b>Format</b><span>The shape of every frame.</span></div>
+        <div class="seg" data-setting="aspect">
+          <button data-v="4:3">4:3</button>
+          <button data-v="3:2">3:2</button>
+          <button data-v="1:1">1:1</button>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="group-title">Camera</h3>
+    <div class="group">
+      <label class="row">
+        <div class="row-text"><b>Blurred viewfinder</b><span>See the light, not the shot. Turn off for a sharp viewfinder.</span></div>
+        <input type="checkbox" class="tgl" data-setting="blur">
+      </label>
+      <label class="row">
+        <div class="row-text"><b>Grid</b><span>Rule-of-thirds lines over the viewfinder.</span></div>
+        <input type="checkbox" class="tgl" data-setting="grid">
+      </label>
+      <div class="row col">
+        <div class="row-text"><b>Timer</b></div>
+        <div class="seg" data-setting="timer">
+          <button data-v="0">Off</button>
+          <button data-v="2">2s</button>
+          <button data-v="5">5s</button>
+          <button data-v="10">10s</button>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="group-title">Developing</h3>
+    <div class="group">
+      <label class="row">
+        <div class="row-text"><b>Grain</b><span>Film grain on the photos when they develop.</span></div>
+        <input type="checkbox" class="tgl" data-setting="grain">
+      </label>
+      <label class="row">
+        <div class="row-text"><b>Date stamp</b><span>Prints the date in the corner of the photo.</span></div>
+        <input type="checkbox" class="tgl" data-setting="dateStamp">
+      </label>
+      <div class="row col">
+        <div class="row-text"><b>Stamp format</b></div>
+        <div class="seg" data-setting="stampOrder">
+          <button data-v="DMY">DD·MM·YY</button>
+          <button data-v="MDY">MM·DD·YY</button>
+          <button data-v="YMD">YY·MM·DD</button>
+        </div>
+        <div class="seg" data-setting="stampColor">
+          <button data-v="orange">Orange</button>
+          <button data-v="white">White</button>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="group-title">Storage</h3>
+    <div class="group">
+      <div class="row"><div class="row-text"><b>Space used by your photos</b></div><span class="val" id="st-space">–</span></div>
+      <div class="row"><div class="row-text"><b>Saved rolls</b></div><span class="val" id="st-rolls">–</span></div>
+      <div class="row"><div class="row-text"><b>Total photos</b></div><span class="val" id="st-photos">–</span></div>
+      <p class="group-note" id="st-note"></p>
+    </div>
+
+    <h3 class="group-title">Data</h3>
+    <div class="group">
+      <button class="row danger-row" id="btn-delete-all">
+        <div class="row-text"><b>Delete all data</b><span>Permanently deletes every roll and photo.</span></div>
+      </button>
+    </div>
+
+    <h3 class="group-title">About</h3>
+    <div class="group">
+      <div class="row"><div class="row-text"><b>Version</b></div><span class="val">2.0.0</span></div>
+      <p class="group-note">No accounts, no servers. Everything stays on this iPhone.</p>
+    </div>
+  </div>
 </section>
 
 <div id="viewer" class="viewer" hidden>
   <div class="viewer-top">
-    <button id="btn-viewer-close" class="chip">✕</button>
+    <button id="btn-viewer-close" class="icon-btn" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
     <span id="viewer-count"></span>
-    <button id="btn-viewer-save" class="chip primary">Save</button>
+    <button id="btn-viewer-save" class="pill gold">Save</button>
   </div>
   <div class="viewer-stage" id="viewer-stage"><img id="viewer-img" alt=""></div>
-</div>
-
-<div id="sheet" class="sheet" hidden>
-  <div class="sheet-card">
-    <h2>Settings</h2>
-    <label class="field-label">Development time</label>
-    <div class="seg" id="seg-delay">
-      <button data-v="3600000">1 h</button>
-      <button data-v="43200000">12 h</button>
-      <button data-v="86400000">24 h</button>
-      <button data-v="259200000">3 days</button>
-    </div>
-    <p class="small">Applies to rolls you send to the lab from now on.</p>
-    <label class="toggle"><input type="checkbox" id="opt-date"> <span>Orange date stamp on prints</span></label>
-    <p class="small" id="storage-note"></p>
-    <button id="btn-sheet-close" class="big-btn">Done</button>
-  </div>
 </div>
 
 <div id="dialog" class="sheet" hidden>
@@ -141,6 +258,8 @@
   <div class="dev-tank"></div>
   <p id="developing-text">Developing…</p>
 </div>
+
+<div id="flash-overlay"></div>
 
 <script src="db.js"></script>
 <script src="film.js"></script>
