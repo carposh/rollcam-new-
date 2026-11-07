@@ -23,7 +23,7 @@
     roll: null,
     stream: null,
     facing: 'environment',
-    flash: true,
+    flash: false,
     busy: false,
     countdown: null,
     developing: false,
@@ -46,6 +46,34 @@
       h = Math.imul(h, 16777619);
     }
     return h >>> 0;
+  }
+
+  let toastTimer = null;
+  function toast(text) {
+    const t = $('#toast');
+    t.textContent = text;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => (t.hidden = true), 2600);
+  }
+
+  function torchTrack() {
+    const track = state.stream && state.stream.getVideoTracks()[0];
+    if (!track || !track.getCapabilities) return null;
+    try {
+      return track.getCapabilities().torch ? track : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function setTorch(track, on) {
+    try {
+      await track.applyConstraints({ advanced: [{ torch: on }] });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   function vibrate(p) {
@@ -367,8 +395,8 @@
     $('#vf-load').hidden = !!r;
     const front = state.facing === 'user';
     $('#btn-flip').setAttribute('aria-checked', String(front));
-    $('#btn-flash').disabled = !front;
-    $('#btn-flash').classList.toggle('on', front && state.flash);
+    $('#btn-flash').classList.toggle('on', state.flash);
+    $('#btn-flash').setAttribute('aria-pressed', String(state.flash));
     $('#btn-timer').classList.toggle('on', s.timer > 0);
     $('#timer-badge').hidden = !s.timer;
     $('#timer-badge').textContent = s.timer ? s.timer + 's' : '';
@@ -383,7 +411,7 @@
       return;
     }
     const full = r.shots >= r.size;
-    $('#counter').textContent = `${pad2(r.shots)} / ${pad2(r.size)}`;
+    $('#counter').innerHTML = `<b>${pad2(r.shots)}</b> / ${pad2(r.size)}`;
     $('#btn-shutter').hidden = full;
     $('#btn-shutter').classList.remove('disabled');
     $('#btn-send').hidden = !full;
@@ -454,10 +482,16 @@
     state.busy = true;
     const overlay = $('#flash-overlay');
     const useFlash = state.facing === 'user' && state.flash;
+    const torch = state.facing !== 'user' && state.flash ? torchTrack() : null;
+    let torchOn = false;
     try {
       if (useFlash) {
         overlay.classList.add('fire');
         await sleep(220);
+      }
+      if (torch) {
+        torchOn = await setTorch(torch, true);
+        if (torchOn) await sleep(450);
       }
       const { sx, sy, sw, sh } = cropToAspect(video.videoWidth, video.videoHeight);
       const scale = Math.min(1, MAX_CAPTURE_SIDE / Math.max(sw, sh));
@@ -471,6 +505,7 @@
       }
       ctx.drawImage(video, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
       if (useFlash) overlay.classList.remove('fire');
+      if (torchOn) setTorch(torch, false);
       vibrate(15);
       video.classList.add('blink');
       setTimeout(() => video.classList.remove('blink'), 110);
@@ -486,6 +521,7 @@
     } catch (e) {
       console.error(e);
       overlay.classList.remove('fire');
+      if (torchOn) setTorch(torch, false);
       dialog('Shot not saved', 'Something went wrong saving that frame. It did not use up an exposure.', 'OK', null);
     } finally {
       state.busy = false;
@@ -688,6 +724,15 @@
     $('#btn-flash').addEventListener('click', () => {
       state.flash = !state.flash;
       renderCamera();
+      if (!state.flash) {
+        toast('Flash off');
+      } else if (state.facing === 'user') {
+        toast('Flash on — the screen lights up');
+      } else if (!state.stream || torchTrack()) {
+        toast('Flash on');
+      } else {
+        toast('This iPhone can\u2019t fire the flash from a web app. Use the front camera for flash.');
+      }
     });
     $('#btn-timer').addEventListener('click', () => {
       const steps = [0, 2, 5, 10];
