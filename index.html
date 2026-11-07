@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Rollcam</title>
+<meta name="description" content="A disposable camera. No previews. Wait for the lab.">
+<meta name="theme-color" content="#1a1816">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rollcam">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section id="home" class="screen active">
+  <header class="topbar">
+    <h1 class="logo">Roll<span>cam</span></h1>
+    <button id="btn-settings" class="icon-btn" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5A3.5 3.5 0 1 1 13 8.5a3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg>
+    </button>
+  </header>
+  <div class="home-scroll">
+    <div id="active-slot"></div>
+    <h2 class="section-title" id="lab-title" hidden>At the lab</h2>
+    <div id="lab-list"></div>
+    <h2 class="section-title" id="dev-title" hidden>Developed rolls</h2>
+    <div id="dev-list" class="dev-list"></div>
+    <p id="install-hint" class="hint" hidden>Tip: tap Share → <b>Add to Home Screen</b> to use Rollcam full-screen.</p>
+  </div>
+</section>
+
+<section id="camera" class="screen">
+  <div class="body">
+    <div class="body-top">
+      <button id="btn-cam-back" class="chip">‹ Rolls</button>
+      <div class="brand">ROLLCAM <b>400</b></div>
+    </div>
+
+    <div class="back-row">
+      <div class="vf-wrap">
+        <div class="vf-bezel">
+          <video id="video" playsinline muted autoplay></video>
+          <div id="vf-msg" class="vf-msg" hidden></div>
+        </div>
+        <div class="vf-label">VIEWFINDER</div>
+      </div>
+      <div class="counter-wrap">
+        <div class="counter"><span id="counter">24</span></div>
+        <div class="vf-label">EXP. LEFT</div>
+      </div>
+    </div>
+
+    <div class="mid-row">
+      <div class="stripes">
+        <div class="stripe-text">
+          <span id="roll-label">24 EXP</span> · ISO 400 · FOCUS-FREE
+        </div>
+        <div class="stripe s1"></div><div class="stripe s2"></div><div class="stripe s3"></div>
+        <p class="instructions">1. WIND ▼ &nbsp; 2. SHOOT ● &nbsp; 3. SEND TO LAB</p>
+      </div>
+      <div class="wheel-wrap">
+        <div id="wheel" class="wheel" role="slider" aria-label="Film advance wheel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="wheel-ridges" id="wheel-ridges"></div></div>
+        <div id="wheel-hint" class="wheel-hint">WIND ▼</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="btn-flash" class="ctrl" aria-label="Flash">
+        <span class="led" id="flash-led"></span>
+        <span class="ctrl-label" id="flash-label">FLASH</span>
+      </button>
+      <button id="btn-shutter" class="shutter" aria-label="Take photo"><span></span></button>
+      <button id="btn-flip" class="ctrl" aria-label="Switch camera">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16m0 4v-4h-4"/></svg>
+        <span class="ctrl-label" id="flip-label">BACK</span>
+      </button>
+    </div>
+    <button id="btn-send" class="send-btn" hidden>Send to lab →</button>
+    <button id="btn-early" class="link-btn">Develop early…</button>
+  </div>
+  <div id="flash-overlay"></div>
+</section>
+
+<section id="roll" class="screen">
+  <header class="topbar">
+    <button id="btn-roll-back" class="chip">‹ Rolls</button>
+    <div class="roll-head">
+      <div id="roll-title" class="roll-title"></div>
+      <div id="roll-sub" class="roll-sub"></div>
+    </div>
+    <button id="btn-save-all" class="chip">Save all</button>
+  </header>
+  <div id="grid" class="grid"></div>
+  <button id="btn-delete-roll" class="link-btn danger">Delete this roll</button>
+</section>
+
+<div id="viewer" class="viewer" hidden>
+  <div class="viewer-top">
+    <button id="btn-viewer-close" class="chip">✕</button>
+    <span id="viewer-count"></span>
+    <button id="btn-viewer-save" class="chip primary">Save</button>
+  </div>
+  <div class="viewer-stage" id="viewer-stage"><img id="viewer-img" alt=""></div>
+</div>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-card">
+    <h2>Settings</h2>
+    <label class="field-label">Development time</label>
+    <div class="seg" id="seg-delay">
+      <button data-v="3600000">1 h</button>
+      <button data-v="43200000">12 h</button>
+      <button data-v="86400000">24 h</button>
+      <button data-v="259200000">3 days</button>
+    </div>
+    <p class="small">Applies to rolls you send to the lab from now on.</p>
+    <label class="toggle"><input type="checkbox" id="opt-date"> <span>Orange date stamp on prints</span></label>
+    <p class="small" id="storage-note"></p>
+    <button id="btn-sheet-close" class="big-btn">Done</button>
+  </div>
+</div>
+
+<div id="dialog" class="sheet" hidden>
+  <div class="sheet-card">
+    <h2 id="dialog-title"></h2>
+    <p id="dialog-text"></p>
+    <div class="dialog-actions">
+      <button id="dialog-cancel" class="big-btn ghost">Cancel</button>
+      <button id="dialog-ok" class="big-btn">OK</button>
+    </div>
+  </div>
+</div>
+
+<div id="developing" class="developing" hidden>
+  <div class="dev-tank"></div>
+  <p id="developing-text">Developing…</p>
+</div>
+
+<script src="db.js"></script>
+<script src="film.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
