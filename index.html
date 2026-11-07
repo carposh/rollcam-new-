@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Rollcam</title>
 <meta name="description" content="A disposable camera. No previews. Wait for the lab.">
-<meta name="theme-color" content="#1c1c1e">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -31,7 +31,7 @@
     </div>
     <div class="appbar-side right">
       <button id="btn-settings" class="icon-btn" aria-label="Settings">
-        <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8l1.6 1.9 2.4-.6.9 2.3 2.3.9-.6 2.4 1.9 1.6-1.9 1.6.6 2.4-2.3.9-.9 2.3-2.4-.6L12 21.2l-1.6-1.9-2.4.6-.9-2.3-2.3-.9.6-2.4L3.5 12l1.9-1.6-.6-2.4 2.3-.9.9-2.3 2.4.6z" stroke-linejoin="round"/></g></svg>
+        <svg viewBox="0 0 24 24" width="26" height="26"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M9.80 4.41 L10.40 1.93 L13.60 1.93 L14.20 4.41 L15.81 5.08 L18.00 3.75 L20.25 6.00 L18.92 8.19 L19.59 9.80 L22.07 10.40 L22.07 13.60 L19.59 14.20 L18.92 15.81 L20.25 18.00 L18.00 20.25 L15.81 18.92 L14.20 19.59 L13.60 22.07 L10.40 22.07 L9.80 19.59 L8.19 18.92 L6.00 20.25 L3.75 18.00 L5.08 15.81 L4.41 14.20 L1.93 13.60 L1.93 10.40 L4.41 9.80 L5.08 8.19 L3.75 6.00 L6.00 3.75 L8.19 5.08Z"/><circle cx="12" cy="12" r="3.3"/></g></svg>
       </button>
     </div>
   </header>
@@ -105,7 +105,7 @@
       <span>Camera</span>
     </button>
     <button class="tabbtn" data-tab="lab">
-      <svg viewBox="0 0 24 24" width="30" height="30"><g fill="currentColor"><path d="M8 10V7.5a4 4 0 0 1 8 0V10h-1.8V7.5a2.2 2.2 0 0 0-4.4 0V10z"/><rect x="6" y="10" width="12" height="10" rx="2.2"/></g><circle cx="12" cy="15" r="1.4" fill="#1c1c1e"/></svg>
+      <svg viewBox="0 0 24 24" width="30" height="30"><g fill="currentColor"><path d="M8 10V7.5a4 4 0 0 1 8 0V10h-1.8V7.5a2.2 2.2 0 0 0-4.4 0V10z"/><rect x="6" y="10" width="12" height="10" rx="2.2"/></g><circle cx="12" cy="15" r="1.4" fill="#000000"/></svg>
       <span>Lab</span>
       <i class="dot" id="lab-dot" hidden></i>
     </button>
@@ -226,7 +226,7 @@
 
     <h3 class="group-title">About</h3>
     <div class="group">
-      <div class="row"><div class="row-text"><b>Version</b></div><span class="val">2.0.0</span></div>
+      <div class="row"><div class="row-text"><b>Version</b></div><span class="val">2.1.0</span></div>
       <p class="group-note">No accounts, no servers. Everything stays on this iPhone.</p>
     </div>
   </div>
@@ -238,7 +238,7 @@
       <svg viewBox="0 0 24 24" width="26" height="26"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <span id="viewer-count"></span>
-    <button id="btn-viewer-save" class="pill gold">Save</button>
+    <button id="btn-viewer-save" class="pill red">Save</button>
   </div>
   <div class="viewer-stage" id="viewer-stage"><img id="viewer-img" alt=""></div>
 </div>
@@ -259,6 +259,7 @@
   <p id="developing-text">Developing…</p>
 </div>
 
+<div id="toast" class="toast" role="status" hidden></div>
 <div id="flash-overlay"></div>
 
 <script src="db.js"></script>
