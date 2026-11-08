@@ -16,8 +16,8 @@ If you denied the camera by mistake: **Settings → Apps → Safari → Camera �
 
 ## How it works
 
-- **Camera tab:** load a 24 or 36 exposure roll, then shoot. The counter shows shots taken (`09 / 24`). The rectangular viewfinder has a soft black-and-white blur by default, so you see the light, not the shot. Use the **BLUR** switch under the viewfinder to turn it off or on. 
-- **Controls:** BLUR switch, counter, self-timer (Off / 2s / 5s / 10s) and **End roll**, which sends the roll to the lab early and throws away the unused exposures. Either side of the shutter: flash (the real flash on the back camera where iOS allows it, a white-screen flash on the front camera) and the front/back camera button.
+- **Camera tab:** load a 24 or 36 exposure roll, then shoot. The counter shows shots taken (`09 / 24`). The rectangular viewfinder has a soft black-and-white blur by default, so you see the light, not the shot. Use the switch under the viewfinder (left) to turn it off or on. 
+- **Controls:** blur switch, counter, self-timer (Off / 2s / 5s / 10s) and **End roll**, which sends the roll to the lab early and throws away the unused exposures. Either side of the shutter: flash (the real flash on the back camera where iOS allows it, a white-screen flash on the front camera) and the front/back camera button.
 - When the roll is full, tap **Send to lab**.
 - **Lab tab:** a countdown for each roll. Development takes 24 h by default (1h / 12h / 24h / 3 days in Settings). Setting the clock back won't get your photos back sooner.
 - **Rolls tab:** your developed rolls. Tap **Save** on a photo (or **Save all** on a roll) and choose **Save Image** to put it in Photos.
