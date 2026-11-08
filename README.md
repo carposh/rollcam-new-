@@ -16,15 +16,18 @@ If you denied the camera by mistake: **Settings → Apps → Safari → Camera �
 
 ## How it works
 
-- **Camera tab:** load a 24 or 36 exposure roll, then shoot. The counter shows shots taken (`09 / 24`). The rectangular viewfinder has a soft black-and-white blur by default, so you see the light, not the shot. Use the **BLUR** switch under the viewfinder to turn it off or on. The round button beside the shutter flips between the back and front cameras.
-- **Controls:** flash (the real flash on the back camera where iOS allows it, a white-screen flash on the front camera), BLUR switch for the viewfinder, counter, self-timer (Off / 2s / 5s / 10s), and **End roll**, which sends the roll to the lab early and throws away the unused exposures.
+- **Camera tab:** load a 24 or 36 exposure roll, then shoot. The counter shows shots taken (`09 / 24`). The rectangular viewfinder has a soft black-and-white blur by default, so you see the light, not the shot. Use the **BLUR** switch under the viewfinder to turn it off or on. 
+- **Controls:** BLUR switch, counter, self-timer (Off / 2s / 5s / 10s) and **End roll**, which sends the roll to the lab early and throws away the unused exposures. Either side of the shutter: flash (the real flash on the back camera where iOS allows it, a white-screen flash on the front camera) and the front/back camera button.
 - When the roll is full, tap **Send to lab**.
 - **Lab tab:** a countdown for each roll. Development takes 24 h by default (1h / 12h / 24h / 3 days in Settings). Setting the clock back won't get your photos back sooner.
 - **Rolls tab:** your developed rolls. Tap **Save** on a photo (or **Save all** on a roll) and choose **Save Image** to put it in Photos.
-- **Settings:** development time, frame format (4:3 / 3:2 / 1:1), blurred viewfinder, grid, timer, grain, date stamp with format and colour, storage usage, and Delete all data.
+- **Settings tab:** development time, frame format (4:3 / 3:2 / 1:1), blurred viewfinder, grid, timer, grain, date stamp with format and colour, storage usage, and Delete all data.
 - The film look (warm cast, fade, grain, vignette, light leaks, date stamp) is applied only at development time.
 - Everything stays on your phone, in IndexedDB. There's no server, no account and **no backup**: deleting the app from your home screen deletes your rolls.
 
 ## Tech
+
+Fonts: Instrument Sans for words and Newsreader for numbers, both bundled under the SIL Open Font License (see `fonts/`).
+
 
 Plain HTML/CSS/JS with no build step, served from the repo root by GitHub Pages. `sw.js` caches the app shell so it opens offline.

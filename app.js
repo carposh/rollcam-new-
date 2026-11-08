@@ -139,6 +139,12 @@
     }
     if (tab === 'lab') renderLab();
     if (tab === 'rolls') renderRolls();
+    if (tab === 'settings') {
+      renderSettings();
+      renderStorage();
+    }
+    const sc = document.querySelector('#tab-' + tab + ' .scroll');
+    if (sc) sc.scrollTop = 0;
   }
 
   function advanceClock(roll) {
@@ -649,11 +655,11 @@
   }
 
   function renderSettings() {
-    $$('#settings .seg').forEach((seg) => {
+    $$('#tab-settings .seg').forEach((seg) => {
       const k = seg.dataset.setting;
       seg.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.v === String(state.settings[k])));
     });
-    $$('#settings .tgl').forEach((t) => (t.checked = !!state.settings[t.dataset.setting]));
+    $$('#tab-settings .tgl').forEach((t) => (t.checked = !!state.settings[t.dataset.setting]));
   }
 
   async function renderStorage() {
@@ -674,16 +680,8 @@
     } catch (e) {}
   }
 
-  function openSettings() {
-    renderSettings();
-    renderStorage();
-    $('#settings').hidden = false;
-  }
-
   function setupSettings() {
-    $('#btn-settings').addEventListener('click', openSettings);
-    $('#btn-settings-back').addEventListener('click', () => ($('#settings').hidden = true));
-    $$('#settings .seg').forEach((seg) =>
+    $$('#tab-settings .seg').forEach((seg) =>
       seg.addEventListener('click', (e) => {
         const b = e.target.closest('button');
         if (!b) return;
@@ -693,7 +691,7 @@
         renderSettings();
       })
     );
-    $$('#settings .tgl').forEach((t) => t.addEventListener('change', () => setSetting(t.dataset.setting, t.checked)));
+    $$('#tab-settings .tgl').forEach((t) => t.addEventListener('change', () => setSetting(t.dataset.setting, t.checked)));
     $('#btn-delete-all').addEventListener('click', async () => {
       const ok = await dialog(
         'Delete all data?',

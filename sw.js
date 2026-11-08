@@ -1,4 +1,4 @@
-const CACHE = 'rollcam-v7';
+const CACHE = 'rollcam-v8';
 const SHELL = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const SHELL = [
   './app.js',
   './manifest.webmanifest',
   './fonts/newsreader-latin.woff2',
+  './fonts/instrument-sans-latin.woff2',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png'
